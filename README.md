@@ -21,6 +21,6 @@ https://github.com/Shougo/ddu-kind-file
 ## Configuration
 
 ```vim
-" Use source.
+" Use the source.
 call ddu#start({'sources': [{'name': 'file_old'}]})
 ```
