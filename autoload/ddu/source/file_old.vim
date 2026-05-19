@@ -1,10 +1,17 @@
 function! ddu#source#file_old#_get_oldfiles() abort
-  " Build result manually to avoid creating intermediate lists and to
-  " expand '~' and relative paths only once per entry using fnamemodify(':p').
+  if v:oldfiles->empty()
+    return []
+  endif
+
   let res = []
   for val in v:oldfiles
-    let path = fnamemodify(val, ':p')
-    if filereadable(path) && fnamemodify(path, ':t') !=# 'COMMIT_EDITMSG'
+    " Expand leading '~' only (preserve relative paths like original)
+    if val[0] ==# '~'
+      let path = val->substitute(^\~', $HOME, '')
+    else
+      let path = val
+    endif
+    if path->filereadable() && path->fnamemodify(':t') !=# 'COMMIT_EDITMSG'
       call add(res, path)
     endif
   endfor
