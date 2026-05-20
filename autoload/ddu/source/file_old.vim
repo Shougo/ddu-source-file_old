@@ -7,7 +7,7 @@ function! ddu#source#file_old#_get_oldfiles() abort
   for val in v:oldfiles
     " Expand leading '~' only (preserve relative paths like original)
     if val[0] ==# '~'
-      let path = val->substitute(^\~', $HOME, '')
+      let path = val->substitute('^\~', $HOME, '')
     else
       let path = val
     endif
