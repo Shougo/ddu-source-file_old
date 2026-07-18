@@ -27,12 +27,17 @@ export class Source extends BaseSource<Params> {
           "ddu#source#file_old#_get_oldfiles",
         ) as string[];
 
-        controller.enqueue(oldfiles.map((f) => ({
-          word: f.startsWith(cwd) ? relative(cwd, f) : f,
-          action: {
-            path: f,
-          },
-        })));
+        controller.enqueue(oldfiles.map((f) => {
+          const rel = relative(cwd, f);
+          const word = rel.startsWith("..") ? f : rel;
+
+          return {
+            word,
+            action: {
+              path: f,
+            },
+          };
+        }));
 
         controller.close();
       },
